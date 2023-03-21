@@ -1,9 +1,10 @@
 package com.anton.eshop.service;
 
-import com.anton.eshop.dao.UserRepository;
 import com.anton.eshop.data.Role;
 import com.anton.eshop.data.User;
 import com.anton.eshop.dto.UserDTO;
+import com.anton.eshop.dto.mapDTO.UserMapper;
+import com.anton.eshop.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,15 +47,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserDTO> findAll() {
-        return userRepository.findAll().stream().map(this::UserMapUserDTO).collect(Collectors.toList());
+    public List<UserDTO> fetchAll() {
+        return ((List<User>) userRepository.findAll())
+                .stream()
+                .map(it -> UserMapper.MAPPER.userMapUserDTO(it))
+                .collect(Collectors.toList());
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findById()
+        User user = getUserByUsername(username);
         if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException("Unknown email: " + username);
+            throw new UsernameNotFoundException("Unknown username: " + username);
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
@@ -67,15 +71,18 @@ public class UserServiceImpl implements UserService{
         );
     }
 
-    private UserDTO UserMapUserDTO(User user) {
-        if (Objects.nonNull(user))
-            return UserDTO.builder()
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .number(user.getNumber())
-                    .build();
-        else
-            return null;
+
+
+    private User getUserByUsername(String username) {
+        List<User> users = (List<User>) userRepository.findAll();
+        User user = null;
+
+        for (User usr : users) {
+            if (Objects.equals(usr.getUsername(), username))
+                user = usr;
+        }
+
+        return Objects.nonNull(user) ? user : null;
     }
 
 }
