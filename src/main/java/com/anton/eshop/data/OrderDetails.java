@@ -29,5 +29,7 @@ public class OrderDetails {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private double price;
+    private int amountProducts;
+
+    private double summa;
 }

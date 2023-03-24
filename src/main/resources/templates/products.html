@@ -12,10 +12,13 @@
     <td>Title</td>
     <td>Price</td>
   </tr>
-  <tr th:each="product : ${products}">
-    <td th:text="${product.title}">Testerka</td>
-    <td th:text="${product.price}">777.0</td>
-  </tr>
+  <div>
+    <tr th:each="product : ${products}">
+      <td th:text="${product.title}">Testerka</td>
+      <td th:text="${product.price}">777.0</td>
+      <td><a th:href="@{/products/{id}/cart(id=${product.id})}"> Добавить в корзину</a></td>
+    </tr>
+  </div>
 </table>
 </body>
 </html>

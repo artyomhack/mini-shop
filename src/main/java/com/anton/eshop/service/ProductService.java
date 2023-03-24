@@ -8,4 +8,6 @@ import java.util.List;
 @Service
 public interface ProductService {
     List<ProductDTO> fetchAll();
+
+    void addUserToCart(String username, Long productId);
 }

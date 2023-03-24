@@ -47,6 +47,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public List<UserDTO> fetchAll() {
         return ((List<User>) userRepository.findAll())
                 .stream()
@@ -56,7 +61,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getUserByUsername(username);
+        User user = fetchUserByUsername(username);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("Unknown username: " + username);
         }
@@ -73,16 +78,39 @@ public class UserServiceImpl implements UserService{
 
 
 
-    private User getUserByUsername(String username) {
+    public User fetchUserByUsername(String username) {
         List<User> users = (List<User>) userRepository.findAll();
         User user = null;
 
         for (User usr : users) {
-            if (Objects.equals(usr.getUsername(), username))
+            if (Objects.equals(usr.getUsername(), username)) {
                 user = usr;
+                break;
+            }
         }
 
         return Objects.nonNull(user) ? user : null;
     }
 
+    @Override
+    public void updateUser(UserDTO userDTO) {
+        User updateUser = fetchUserByUsername(userDTO.getUsername());
+        boolean isCheck = false;
+
+        if (Objects.isNull(updateUser)) {
+            throw new RuntimeException("User not found: " + userDTO.getUsername());
+        }
+
+        if (!Objects.equals(updateUser.getEmail(), userDTO.getEmail())) {
+            updateUser.setEmail(userDTO.getEmail());
+            isCheck = true;
+        }
+
+        if (Objects.nonNull(userDTO.getPassword()) && !userDTO.getPassword().isEmpty()) {
+            updateUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            isCheck = true;
+        }
+
+        if (isCheck) userRepository.save(updateUser);
+    }
 }
