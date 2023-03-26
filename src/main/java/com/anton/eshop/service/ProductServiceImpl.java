@@ -7,8 +7,10 @@ import com.anton.eshop.dto.ProductDTO;
 import com.anton.eshop.dto.mapDTO.ProductMapper;
 import com.anton.eshop.dto.mapDTO.UserMapper;
 import com.anton.eshop.repository.ProductRepository;
+import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.CascadeType;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
@@ -31,8 +33,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void save(ProductDTO productDTO) {
+        productRepository.save(productMapper.productDTOmapToProduct(productDTO));
+    }
+
+    @Override
     public List<ProductDTO> fetchAll() {
         return productMapper.productsToProductsDTO(productRepository.findAll());
+    }
+
+    @Override
+    public ProductDTO fetchId(Long id) {
+        ProductDTO product = null;
+        for (ProductDTO productDTO : fetchAll()) {
+            if (productDTO.getId().equals(id)) {
+                product = productDTO;
+                break;
+            }
+        }
+
+        return product;
     }
 
     @Override
@@ -49,5 +69,10 @@ public class ProductServiceImpl implements ProductService {
         } else {
             cartService.addProduct(cart, Collections.singletonList(productId));
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
     }
 }

@@ -18,9 +18,10 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping
+    @GetMapping("/cart")
     public String aboutCart(Model model, Principal principal) {
-        if (Objects.isNull(principal))  model.addAttribute("cart", new CartDTO());
+        if (Objects.isNull(principal))
+            model.addAttribute("cart", new CartDTO());
         else {
             CartDTO cartDTO = cartService.getCartByUsername(principal.getName());
             model.addAttribute("cart", cartDTO);

@@ -1,6 +1,5 @@
 package com.anton.eshop.dto;
 
-import com.anton.eshop.data.OrderDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,12 +15,12 @@ import java.util.List;
 public class CartDTO {
     private int amountProducts;
     private double summa;
-    private List<CartDetailsDTO> cartDetailsDTOS = new ArrayList<>();
+    private List<CartDetails> cartDetails = new ArrayList<>();
 
     public void aggregate() {
-        this.amountProducts = cartDetailsDTOS.size();
-        this.summa = cartDetailsDTOS.stream()
-                .map(CartDetailsDTO::getSumma)
+        this.amountProducts = cartDetails.size();
+        this.summa = cartDetails.stream()
+                .map(CartDetails::getSumma)
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }

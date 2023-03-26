@@ -12,8 +12,10 @@ public class ProductMapper {
 
     public ProductDTO productMapProductDTO(Product product) {
             return ProductDTO.builder()
+                    .id(product.getId())
                     .title(product.getTitle())
                     .price(product.getPrice())
+                    .amount(product.getAmount())
                     .build();
 
     }
@@ -21,8 +23,10 @@ public class ProductMapper {
     public Product productDTOmapToProduct(ProductDTO productDTO) {
         if (Objects.nonNull(productDTO)) {
             return Product.builder()
+                    .id(productDTO.getId())
                     .title(productDTO.getTitle())
                     .price(productDTO.getPrice())
+                    .amount(productDTO.getAmount())
                     .build();
         } else
             return null;

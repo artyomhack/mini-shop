@@ -15,4 +15,6 @@ public interface CartService {
     void addProduct(Cart cart, List<Long> productsIds);
 
     CartDTO getCartByUsername(String username);
+
+    void deleteProductAndCartByProductId(Long productId);
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Data
@@ -25,6 +26,8 @@ public class Product {
     private String title;
 
     private double price;
+
+    private BigDecimal amount;
 
     @ManyToMany
     @JoinTable(name = "products_categories",

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,4 +32,8 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
+
+    public Long getId() {
+        return id;
+    }
 }
