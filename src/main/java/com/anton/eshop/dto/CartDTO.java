@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CartDTO {
+    private Long id;
     private int amountProducts;
     private double summa;
     private List<CartDetails> cartDetails = new ArrayList<>();
@@ -23,5 +24,6 @@ public class CartDTO {
                 .map(CartDetails::getSumma)
                 .mapToDouble(Double::doubleValue)
                 .sum();
+        System.out.println("summa: " + summa);
     }
 }

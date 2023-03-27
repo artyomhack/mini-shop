@@ -10,15 +10,19 @@
 <div class="profile_user">
     <form th:action="@{/users/profile}" th:object="${user}" method="post">
         <table border="1">
-            <tr border="1">
+            <tr>
                 <td>Username</td>
                 <td><input type="text" th:field="*{username}"></td>
             </tr>
-            <tr border="1">
+            <tr>
                 <td>Email</td>
                 <td><input type="text" th:field="*{email}"></td>
             </tr>
-            <tr border="1">
+            <tr >
+                <td>Number</td>
+                <td><input type="number" th:field="*{number}"></td>
+            </tr>
+            <tr>
                 <td>Password</td>
                 <td><input type="password" th:field="*{password}"></td>
             </tr>

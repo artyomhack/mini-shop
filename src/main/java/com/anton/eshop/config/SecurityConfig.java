@@ -11,8 +11,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.persistence.Basic;
@@ -20,8 +26,6 @@ import javax.persistence.Basic;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-
     private UserService userService;
 
     @Autowired
@@ -35,16 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Basic
     private AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(passwordEncoder());
+        auth.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         return auth;
     }
 
@@ -53,21 +52,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
-                    .antMatchers("/users/new").hasAuthority(Role.ADMIN.name())
-                    .anyRequest().permitAll()
+                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
+                .antMatchers("/users/new").hasAuthority(Role.ADMIN.name())
+                .anyRequest().permitAll()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .failureUrl("/login-error")
-                    .loginProcessingUrl("/auth")
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login-error")
+                .loginProcessingUrl("/auth")
+                .permitAll()
                 .and()
-                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
                 .and()
-                    .csrf().disable();
+                .csrf().disable();
 
     }
+
 }

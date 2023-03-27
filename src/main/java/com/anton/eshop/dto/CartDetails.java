@@ -2,6 +2,7 @@ package com.anton.eshop.dto;
 
 
 import com.anton.eshop.data.Product;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,26 +10,21 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CartDetails {
     private String title;
     private Long productId;
-    private Product product;
     private double price;
-    private BigDecimal amount;
+    private AmountDetails amount;
     private double summa;
 
-    public CartDetails(String title, Long productId, Product product, double price, BigDecimal amount, double summa) {
-        this.title = title;
-        this.productId = productId;
-        this.product = product;
-        this.price = price;
-        this.amount = amount;
-        this.summa = summa;
-    }
-
-    public CartDetails(Product it) {
-        this.product = it;
+    public CartDetails(Product product) {
+        this.title = product.getTitle();
+        this.productId = product.getId();
+        this.price = product.getPrice();
+        this.amount = AmountDetails.of(String.valueOf(product.getAmount()));
+        this.summa = product.getPrice();
     }
 }

@@ -21,11 +21,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService{
         if (Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
             User user = User.builder()
                     .username(userDTO.getUsername())
-                    .password(passwordEncoder.encode(userDTO.getPassword()))
+                    .password(userDTO.getPassword())
                     .email(userDTO.getEmail())
                     .role(Role.CLIENT)
                     .build();
@@ -107,7 +105,7 @@ public class UserServiceImpl implements UserService{
         }
 
         if (Objects.nonNull(userDTO.getPassword()) && !userDTO.getPassword().isEmpty()) {
-            updateUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            updateUser.setPassword(userDTO.getPassword());
             isCheck = true;
         }
 

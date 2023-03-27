@@ -3,6 +3,7 @@ package com.anton.eshop.service;
 import com.anton.eshop.data.Cart;
 import com.anton.eshop.data.Product;
 import com.anton.eshop.data.User;
+import com.anton.eshop.dto.CartDTO;
 import com.anton.eshop.dto.ProductDTO;
 import com.anton.eshop.dto.mapDTO.ProductMapper;
 import com.anton.eshop.dto.mapDTO.UserMapper;
@@ -65,14 +66,14 @@ public class ProductServiceImpl implements ProductService {
         if (cart == null) {
             Cart newCart = cartService.createCart(user, Collections.singletonList(productId));
             user.setCart(newCart);
-            userService.save(user);
+            userService.save(userMapper.userMapUserDTO(user));
         } else {
             cartService.addProduct(cart, Collections.singletonList(productId));
         }
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteProductByCartIdAndProductId(Long cart_productId, String username) {
 
     }
 }

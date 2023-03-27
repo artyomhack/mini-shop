@@ -12,12 +12,11 @@
       <table>
         <tr>
             <td>Menu -> </td>
-            <td><a th:href="@{/}"> Home </a></td>
-            <td><a th:href="@{/products}"> Products </a></td>
-            <td><a th:href="@{/login}"> Login </a></td>
-            <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')">
-                <a th:href="@{/users}">Users</a>
-            </td>
+            <td><a th:href="@{/}"> Главная  </a></td>
+            <td><a th:href="@{/products}"> Продукты  </a></td>
+            <td><a th:href="@{/login}"> Вход  </a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/cart}"> Корзина  </a></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')"><a th:href="@{/users}"> Пользователи</a></td>
         </tr>
       </table>
       </td>

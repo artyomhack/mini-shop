@@ -10,16 +10,19 @@
     <p th:if="${loginError}" class="error">Wrong user or password</p>
     <div class="login">
         <form th:action="@{/auth}" method="post">
-            <table border="1">
+            <table>
             <tr>
                 <td>Username</td>
                 <td>
                     <input type="text" name="username" placeholder="your username">
                 </td>
             </tr>
-            <tr border="1">
+            <tr>
                 <td>Password</td>
                 <td><input type="password" name="password" placeholder="password"></td>
+            </tr>
+            <tr>
+
             </tr>
             </table>
             <button type="submit">Log in</button>

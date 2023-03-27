@@ -19,5 +19,5 @@ public class ProductDTO {
 
     private double price;
 
-    private BigDecimal amount;
+    private Integer amount;
 }

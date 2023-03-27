@@ -16,5 +16,4 @@ public interface CartService {
 
     CartDTO getCartByUsername(String username);
 
-    void deleteProductAndCartByProductId(Long productId);
 }

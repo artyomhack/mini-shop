@@ -27,7 +27,7 @@ public class Product {
 
     private double price;
 
-    private BigDecimal amount;
+    private Integer amount;
 
     @ManyToMany
     @JoinTable(name = "products_categories",

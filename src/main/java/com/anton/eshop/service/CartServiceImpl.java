@@ -54,36 +54,24 @@ public class CartServiceImpl implements CartService {
         if (Objects.isNull(user) || user.getCart() == null) return new CartDTO();
 
         CartDTO cartDTO = new CartDTO();
-        Map<Long, CartDetails> cartDetailsDTOMap = new HashMap<>();
+        Map<Long, CartDetails> mapByProductId = new HashMap<>();
 
         List<Product> products = user.getCart().getProducts();
 
+        for (Product product: products) {
+            CartDetails cartDetails = mapByProductId.get(product.getId());
+            if (cartDetails == null) {
+                mapByProductId.put(product.getId(), new CartDetails(product));
+            } else {
 
-        products.forEach(it -> {
-            CartDetails cartDetails = cartDetailsDTOMap.get(it.getId());
-            if (Objects.isNull(cartDetails)) cartDetailsDTOMap.put(it.getId(), new CartDetails(it));
-            else {
-                cartDetails.setAmount(cartDetails.getAmount().add(new BigDecimal("1.0")));
-                cartDetails.setSumma(cartDTO.getSumma() + it.getPrice());
+                cartDetails.setSumma(cartDetails.getSumma() + product.getPrice());
             }
-        });
+        }
 
-        cartDTO.setCartDetails(new ArrayList<>(cartDetailsDTOMap.values()));
+        cartDTO.setCartDetails(new ArrayList<>(mapByProductId.values()));
         cartDTO.aggregate();
 
         return cartDTO;
-    }
-
-    @Override
-    public void deleteProductAndCartByProductId(Long productId) {
-        for (Cart cart : cartRepository.findAll()) {
-            for (Product p : cart.getProducts()) {
-                if (p.getId().equals(productId)) {
-                    cartRepository.deleteById(cart.getId());
-                    productRepository.delete(p);
-                }
-            }
-        }
     }
 
     private List<Product> getCollectRefListPProducts(List<Long> productIds) {

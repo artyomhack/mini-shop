@@ -34,6 +34,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 }
