@@ -4,6 +4,7 @@ import com.anton.eshop.data.Cart;
 import com.anton.eshop.data.Product;
 import com.anton.eshop.data.User;
 import com.anton.eshop.dto.CartDTO;
+import com.anton.eshop.dto.CartDetails;
 import com.anton.eshop.dto.ProductDTO;
 import com.anton.eshop.dto.mapDTO.ProductMapper;
 import com.anton.eshop.dto.mapDTO.UserMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.CascadeType;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -34,26 +36,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(ProductDTO productDTO) {
-        productRepository.save(productMapper.productDTOmapToProduct(productDTO));
-    }
-
-    @Override
     public List<ProductDTO> fetchAll() {
         return productMapper.productsToProductsDTO(productRepository.findAll());
     }
 
     @Override
     public ProductDTO fetchId(Long id) {
-        ProductDTO product = null;
-        for (ProductDTO productDTO : fetchAll()) {
-            if (productDTO.getId().equals(id)) {
-                product = productDTO;
+        ProductDTO productDTO = new ProductDTO();
+        for (Product product : productRepository.findAll()) {
+            if (product.getId().equals(id)) {
+                productDTO = productMapper.productMapProductDTO(product);
                 break;
             }
         }
 
-        return product;
+        return productDTO;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
         if (user == null) throw new RuntimeException();
 
         Cart cart = user.getCart();
-        if (cart == null) {
+        if (Objects.isNull(cart)) {
             Cart newCart = cartService.createCart(user, Collections.singletonList(productId));
             user.setCart(newCart);
             userService.save(userMapper.userMapUserDTO(user));
@@ -73,7 +70,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProductByCartIdAndProductId(Long cart_productId, String username) {
-
+    public void create(ProductDTO productDTO) {
+        if (Objects.nonNull(productDTO)) {
+            Product product = Product.builder()
+                    .id(productDTO.getId())
+                    .title(productDTO.getTitle())
+                    .amount(productDTO.getAmount())
+                    .price(productDTO.getPrice())
+                    .categories(new ArrayList<>())
+                    .build();
+            productRepository.save(product);
+        } else {
+            throw new RuntimeException("Product is null");
+        }
     }
 }

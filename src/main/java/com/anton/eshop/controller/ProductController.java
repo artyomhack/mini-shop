@@ -1,11 +1,8 @@
 package com.anton.eshop.controller;
 
-import com.anton.eshop.dto.CartDTO;
 import com.anton.eshop.dto.ProductDTO;
 import com.anton.eshop.service.CartService;
 import com.anton.eshop.service.ProductService;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,17 +39,21 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    @GetMapping("//{product_id}")
-    public String deleteProduct(
-            @PathVariable(name = "product_id") Long product_id,
-                                Principal principal) {
-        ProductDTO product = productService.fetchId(product_id);
-        if (Objects.isNull(product) ) {
-            return "redirect:/products";
-        }
+    @GetMapping("/create")
+    public String showCreateProduct(Model model) {
+        model.addAttribute("product", new ProductDTO());
 
-        productService.deleteProductByCartIdAndProductId(product_id, principal.getName());
+        return "product_create";
+    }
+
+    @PostMapping("/create")
+    public String createProduct(ProductDTO productDTO, Model model) {
+        if (Objects.nonNull(productDTO)) {
+            productService.create(productDTO);
+        }
+        model.addAttribute("product", productDTO);
         return "redirect:/products";
     }
+
 
 }

@@ -1,11 +1,11 @@
 package com.anton.eshop.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.anton.eshop.data.Role;
+import lombok.*;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -15,5 +15,6 @@ public class UserDTO {
     private String matchingPassword;
     private String email;
     private String number;
+    private Role role;
 
 }

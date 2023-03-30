@@ -3,7 +3,6 @@ package com.anton.eshop.service;
 import com.anton.eshop.data.Cart;
 import com.anton.eshop.data.User;
 import com.anton.eshop.dto.CartDTO;
-import com.anton.eshop.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,4 +15,5 @@ public interface CartService {
 
     CartDTO getCartByUsername(String username);
 
+    void deleteProductByCartIdAndProductId(Long cart_id, Long product_id);
 }

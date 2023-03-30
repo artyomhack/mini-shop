@@ -1,5 +1,6 @@
 package com.anton.eshop.controller;
 
+import com.anton.eshop.data.Role;
 import com.anton.eshop.data.User;
 import com.anton.eshop.dto.UserDTO;
 import com.anton.eshop.dto.mapDTO.UserMapper;
@@ -53,7 +54,8 @@ public class UserController {
             throw new RuntimeException("You're not logging!");
         }
 
-        UserDTO userDTO  = UserMapper.MAPPER.userMapUserDTO(userService.fetchUserByUsername(principal.getName()));
+        UserDTO userDTO  = UserMapper.MAPPER.
+                userMapUserDTO(userService.fetchUserByUsername(principal.getName()));
 
         model.addAttribute("user", userDTO);
 
@@ -75,5 +77,6 @@ public class UserController {
         userService.updateUser(userDTO);
         return "redirect:/users/profile";
     }
+
 
 }

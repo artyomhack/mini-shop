@@ -11,8 +11,6 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     boolean save(UserDTO userDTO);
 
-    void save(User user);
-
     List<UserDTO> fetchAll();
 
     User fetchUserByUsername(String username);

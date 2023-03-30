@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
                     .username(userDTO.getUsername())
                     .password(userDTO.getPassword())
                     .email(userDTO.getEmail())
-                    .role(Role.CLIENT)
+                    .role(userDTO.getRole())
                     .build();
 
             userRepository.save(user);
@@ -42,11 +42,6 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new RuntimeException("Password is not equals.");
         }
-    }
-
-    @Override
-    public void save(User user) {
-        userRepository.save(user);
     }
 
     @Override

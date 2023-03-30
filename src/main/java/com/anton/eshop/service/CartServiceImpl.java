@@ -44,8 +44,9 @@ public class CartServiceImpl implements CartService {
         updateProducts.addAll(getCollectRefListPProducts(productsIds));
         cart.setProducts(updateProducts);
         cartRepository.save(cart);
-
     }
+
+
 
     @Override
     public CartDTO getCartByUsername(String username) {
@@ -67,7 +68,7 @@ public class CartServiceImpl implements CartService {
                 cartDetails.setSumma(cartDetails.getSumma() + product.getPrice());
             }
         }
-
+        cartDTO.setId(user.getCart().getId());
         cartDTO.setCartDetails(new ArrayList<>(mapByProductId.values()));
         cartDTO.aggregate();
 
@@ -78,6 +79,19 @@ public class CartServiceImpl implements CartService {
         return productIds.stream()
                 .map(productRepository::getOne)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteProductByCartIdAndProductId(Long cart_Id, Long product_id) {
+        if (cartRepository.findById(cart_Id).isPresent()) {
+            Cart cart = cartRepository.findById(cart_Id).get();
+            for (Product product : cart.getProducts()) {
+                if (Objects.equals(product.getId(), product_id)) {
+                    product = null;
+                }
+            }
+        }
+
     }
 
 }

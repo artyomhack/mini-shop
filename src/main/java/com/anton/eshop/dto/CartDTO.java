@@ -14,12 +14,12 @@ import java.util.List;
 @Builder
 public class CartDTO {
     private Long id;
-    private int amountProducts;
+    private AmountDetails amount;
     private double summa;
     private List<CartDetails> cartDetails = new ArrayList<>();
 
     public void aggregate() {
-        this.amountProducts = cartDetails.size();
+        this.amount = AmountDetails.of(String.valueOf(cartDetails.size()));
         this.summa = cartDetails.stream()
                 .map(CartDetails::getSumma)
                 .mapToDouble(Double::doubleValue)

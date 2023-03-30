@@ -11,12 +11,12 @@
       <td>
       <table>
         <tr>
-            <td>Menu -> </td>
-            <td><a th:href="@{/}"> Главная  </a></td>
-            <td><a th:href="@{/products}"> Продукты  </a></td>
-            <td><a th:href="@{/login}"> Вход  </a></td>
-            <td sec:authorize="isAuthenticated()"><a th:href="@{/cart}"> Корзина  </a></td>
-            <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')"><a th:href="@{/users}"> Пользователи</a></td>
+            <td><a th:href="@{/}"> Главная </a></td>
+            <td><a th:href="@{/products}">| Продукты </a></td>
+            <td><a th:href="@{/login}">| Вход </a></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/cart}">| Корзина  </a></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"> <a th:href="@{/products/create}">| Добавить продукт</a></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')"><a th:href="@{/users}">| Пользователи</a></td>
         </tr>
       </table>
       </td>
@@ -26,13 +26,13 @@
             Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Tester</span></a>
           </div>
           <div>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/logout}">Выйти</a>
           </div>
         </div>
 
         <div sec:authorize="!isAuthenticated()">
           <div>
-            Please go to <a th:href="@{/login}">Login</a>
+            Войдите в свой <a th:href="@{/login}">аккаунт</a>
           </div>
         </div>
       </td>

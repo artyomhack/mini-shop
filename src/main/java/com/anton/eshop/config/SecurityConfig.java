@@ -37,10 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
+        //Внутренне поставщик аутентификации несет ответственность за выполнение процесса аутентификации.
     }
 
     @Basic
     private AuthenticationProvider authenticationProvider() {
+        //Мы хотим, чтобы DaoAuthenticationProvider использовал нашу службу
+        // customer UserDetailsService для получения информации о пользователе.
+        // Это делается путем расширения WebSecurityConfigurerAdapter.
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
@@ -52,20 +56,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                //КТО ИМЕЕТ ДОСТУП К ЭТИМ СЫЛЛКАМ
                 .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
-                .antMatchers("/users/new").hasAuthority(Role.ADMIN.name())
+                .antMatchers("/users/create/new").hasAuthority(Role.ADMIN.name())
+                //ОСТОЛЬНЫЕ ИМЕЮТ ДОСТУП ВЕЗДЕ
                 .anyRequest().permitAll()
                 .and()
+                //СТРАНИЦА АВТОРИЗАЦИИ
                 .formLogin()
                 .loginPage("/login")
+                //ЕСЛИ АВТОРИЗАЦИЯ НЕ ПРОШЛА ПЕРЕХОДИМ НА ЭТУ ССЫЛКУ
                 .failureUrl("/login-error")
                 .loginProcessingUrl("/auth")
                 .permitAll()
                 .and()
+                //ВЫХОД С УЧЁТКИ ПО СЫЛЛКЕ
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .and()
+                //ЗАЩИТА КЛИЕНТ-БРАУЗЕРА
                 .csrf().disable();
 
     }

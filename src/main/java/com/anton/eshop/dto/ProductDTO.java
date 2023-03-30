@@ -20,4 +20,6 @@ public class ProductDTO {
     private double price;
 
     private Integer amount;
+
+    private AmountDetails amountDetails;
 }
