@@ -11,14 +11,16 @@
           <h2>Общая сумма: <b th:text="${cart.summa}">7777</b> </h2>
               <tr>
                   <td>Название</td>
+                  <td>Кол-во</td>
                   <td>Цена</td>
                   <td>Сумма</td>
               </tr>
-              <tr th:each="cart_details : ${cart.cartDetails}">
+              <tr th:each="cart_details : ${cart.items}">
                   <td th:text="${cart_details.title}"></td>
+                  <td th:text="${cart_details.quantity}"></td>
                   <td th:text="${cart_details.price}"></td>
                   <td th:text="${cart_details.summa}"></td>
-                  <td><a th:href="@{/cart/{cart_id}/delete/{product_id}(cart_id=${cart.id},product_id=${cart_details.productId})}">
+                  <td><a th:href="@{/cartEntity/{cart_id}/delete/{product_id}(cart_id=${cart.id},product_id=${cart_details.productId})}">
                     <span>Убрать</span></a></td>
               </tr>
     </table>

@@ -1,19 +1,20 @@
 package com.anton.eshop.service;
 
-import com.anton.eshop.data.User;
+import com.anton.eshop.data.UserEntity;
 import com.anton.eshop.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
-public interface UserService extends UserDetailsService {
-    boolean save(UserDTO userDTO);
+public interface UserService extends UserDetailsService{
+    void deleteUserById(Long user_id);
 
-    List<UserDTO> fetchAll();
-
-    User fetchUserByUsername(String username);
+    void createUser(UserDTO userDTO);
 
     void updateUser(UserDTO userDTO);
+
+    UserDTO fetchById(Long user_id);
+
+    UserEntity fetchByUsername(String username);
 }

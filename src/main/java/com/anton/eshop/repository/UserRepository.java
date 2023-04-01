@@ -1,21 +1,21 @@
 package com.anton.eshop.repository;
 
-import com.anton.eshop.data.User;
+import com.anton.eshop.data.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
     @Override
-    <S extends User> S save(S s);
+    <S extends UserEntity> S save(S s);
 
     @Override
-    Optional<User> findById(Long aLong);
+    Optional<UserEntity> findById(Long aLong);
 
     @Override
-    Iterable<User> findAll();
+    Iterable<UserEntity> findAll();
 
     @Override
     void deleteById(Long aLong);

@@ -1,25 +1,21 @@
 package com.anton.eshop.dto;
 
+import com.anton.eshop.data.CartEntity;
+import com.anton.eshop.data.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDTO {
-
+public class ItemDTO {
     private Long id;
-
-    @NotNull
     private String title;
-
     private BigDecimal price;
-
-    private int amount;
+    private int quantity;
 }

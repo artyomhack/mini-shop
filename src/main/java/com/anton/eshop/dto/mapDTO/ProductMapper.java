@@ -1,6 +1,6 @@
 package com.anton.eshop.dto.mapDTO;
 
-import com.anton.eshop.data.Product;
+import com.anton.eshop.data.ProductEntity;
 import com.anton.eshop.dto.ProductDTO;
 
 import java.util.List;
@@ -10,35 +10,35 @@ import java.util.stream.Collectors;
 public class ProductMapper {
     public static ProductMapper MAPPER = new ProductMapper();
 
-    public ProductDTO productMapProductDTO(Product product) {
+    public ProductDTO productMapProductDTO(ProductEntity productEntity) {
             return ProductDTO.builder()
-                    .id(product.getId())
-                    .title(product.getTitle())
-                    .price(product.getPrice())
-                    .amount(product.getAmount())
+                    .id(productEntity.getId())
+                    .title(productEntity.getTitle())
+                    .price(productEntity.getPrice())
+                    .amount(productEntity.getCount())
                     .build();
 
     }
 
-    public Product productDTOmapToProduct(ProductDTO productDTO) {
+    public ProductEntity productDTOmapToProduct(ProductDTO productDTO) {
         if (Objects.nonNull(productDTO)) {
-            return Product.builder()
+            return ProductEntity.builder()
                     .id(productDTO.getId())
                     .title(productDTO.getTitle())
                     .price(productDTO.getPrice())
-                    .amount(productDTO.getAmount())
+                    .count(productDTO.getAmount())
                     .build();
         } else
             return null;
     }
 
-    public List<ProductDTO> productsToProductsDTO(List<Product> products) {
-        return products.stream()
+    public List<ProductDTO> productsToProductsDTO(List<ProductEntity> productEntities) {
+        return productEntities.stream()
                 .map(this::productMapProductDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<Product> productsDTOtoProducts(List<ProductDTO> productsDTO) {
+    public List<ProductEntity> productsDTOtoProducts(List<ProductDTO> productsDTO) {
         return productsDTO.stream()
                 .map(this::productDTOmapToProduct)
                 .collect(Collectors.toList());

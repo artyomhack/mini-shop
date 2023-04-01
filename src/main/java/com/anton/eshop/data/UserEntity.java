@@ -6,35 +6,38 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "users")
-public class User {
-    private static final String SEQ_NAME = "user_seq";
-
+public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = SEQ_NAME)
-    @SequenceGenerator(name=SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "number")
     private String number;
 
-    private boolean archive;
-
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.CLIENT;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY    )
     @JoinColumn(name = "cart_id")
-    private Cart cart;
+    private CartEntity cart;
+
+    public UserEntity() {}
 }

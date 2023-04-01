@@ -3,12 +3,9 @@ package com.anton.eshop.controller;
 import com.anton.eshop.data.Role;
 import com.anton.eshop.dto.UserDTO;
 import com.anton.eshop.service.UserService;
-import org.dom4j.rule.Mode;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +49,7 @@ public class MainController {
             return "redirect:/reg/create";
         }
 
-        userService.save(userDTO);
+        userService.createUser(userDTO);
         return "redirect:/login";
     }
 }

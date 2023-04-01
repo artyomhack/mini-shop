@@ -16,13 +16,13 @@
           <td>Кол-во</td>
         </tr>
         <div>
-          <tr th:each="product : ${products}">
-            <td th:text="${product.title}">Testerka</td>
-            <td th:text="${product.price}">777.0</td>
-            <td th:text="${product.amount}">-1</td>
-            <td><a th:href="@{/products/{id}/cart(id=${product.id})}">Добавить в корзину</a></td>
+          <tr th:each="productEntity : ${products}">
+            <td th:text="${productEntity.title}">Testerka</td>
+            <td th:text="${productEntity.price}">777.0</td>
+            <td th:text="${productEntity.amount}">-1</td>
+            <td><a th:href="@{/product/cart/{cart_id}/{product_id}(product_id=${product.id})}">Добавить в корзину</a></td>
             <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')">
-              <a th:href="@{/products/{id}(id=${product.id})}">Удалить</a>
+              <a th:href="@{/product/{id}(id=${productEntity.id})}">Удалить</a>
             </td>
           </tr>
         </div>

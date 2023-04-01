@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Create product A-Shop</title>
+    <title>Create productEntity A-Shop</title>
 </head>
 <body>
     <div class="form_product" align="center">
@@ -10,7 +10,6 @@
         <form th:action="@{/products/create}" th:object="${product}" method="post">
             <div>
                 <table border="1">
-
                     <tr>
                         <td>Название</td>
                         <td><input type="text" th:field="*{title}"></td>

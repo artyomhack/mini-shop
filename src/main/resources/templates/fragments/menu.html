@@ -23,7 +23,7 @@
       <td align="center">
         <div sec:authorize="isAuthenticated()">
           <div>
-            Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Tester</span></a>
+            Hello, <a th:href="@{/userEntities/profile}"><span sec:authentication="principal.username">Tester</span></a>
           </div>
           <div>
             <a th:href="@{/logout}">Выйти</a>

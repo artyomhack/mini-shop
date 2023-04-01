@@ -1,8 +1,6 @@
 package com.anton.eshop.dto.mapDTO;
 
-import com.anton.eshop.data.Product;
-import com.anton.eshop.data.User;
-import com.anton.eshop.dto.ProductDTO;
+import com.anton.eshop.data.UserEntity;
 import com.anton.eshop.dto.UserDTO;
 
 import java.util.List;
@@ -13,20 +11,20 @@ public class UserMapper {
 
     public static UserMapper MAPPER = new UserMapper();
 
-    public UserDTO userMapUserDTO(User user) {
-        if (Objects.nonNull(user))
+    public UserDTO userMapUserDTO(UserEntity userEntity) {
+        if (Objects.nonNull(userEntity))
             return UserDTO.builder()
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .number(user.getNumber())
+                    .username(userEntity.getUsername())
+                    .email(userEntity.getEmail())
+                    .number(userEntity.getNumber())
                     .build();
         else
             return null;
     }
 
-    public User userDTOmapToUser(UserDTO userDTO) {
+    public UserEntity userDTOmapToUser(UserDTO userDTO) {
         if (Objects.nonNull(userDTO)) {
-            return User.builder()
+            return UserEntity.builder()
                     .username(userDTO.getUsername())
                     .password(userDTO.getPassword())
                     .email(userDTO.getEmail())
@@ -37,14 +35,14 @@ public class UserMapper {
             return null;
     }
 
-    public List<UserDTO> usersToUsersDTO(List<User> users) {
-        return users.stream()
+    public List<UserDTO> usersToUsersDTO(List<UserEntity> userEntities) {
+        return userEntities.stream()
                 .filter(Objects::nonNull)
                 .map(this::userMapUserDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<User> productsDTOtoProducts(List<UserDTO> usersDTO) {
+    public List<UserEntity> productsDTOtoProducts(List<UserDTO> usersDTO) {
         return usersDTO.stream()
                 .filter(Objects::nonNull)
                 .map(this::userDTOmapToUser)
